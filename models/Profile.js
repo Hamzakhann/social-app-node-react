@@ -42,18 +42,18 @@ const ProfileSchema  = new Schema({
     {
       title : {
         type : String,
-        required : true
+        // required : true
       },
       company : {
         type : String,
-        required : true
+        // required : true
       },
       location : {
         type : String
       },
       from : {
         type : Date,
-        required : true
+        // required : true
       },
       to:{
         type : Date,
@@ -72,19 +72,19 @@ const ProfileSchema  = new Schema({
     {
       school : {
         type : String,
-        required : true
+        // required : true
       },
       degree : {
         type : String,
-        required : true
+        // required : true
       },
       fieldofstudy : {
         type : String,
-        required : true
+        // required : true
       },
       from : {
         type : Date,
-        required : true
+        // required : true
       },
       to:{
         type : Date,
@@ -102,23 +102,23 @@ const ProfileSchema  = new Schema({
   social : {
     youtube : {
       type : String,
-      required : true
+      // required : true
     },
     twitter : {
       type : String,
-      required : true
+      // required : true
     },
     facebook : {
       type : String,
-      required : true
+      // required : true
     },
     linkedin : {
       type : String,
-      required : true
+      // required : true
     },
     instagram : {
       type : String,
-      required : true
+      // required : true
     },
   },
   date : {
