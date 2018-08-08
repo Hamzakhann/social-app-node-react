@@ -19,6 +19,7 @@ router.get('/test' , (req , res) => res.json({msg : 'user works'}));
 //@desc  Register user
 //@access public
 router.post('/register' , (req , res)=>{
+  console.log(req.body)
   User.findOne({email : req.body.email}).then((user)=>{
     if(user){
       return res.status(400).json({email : 'email already exist'});

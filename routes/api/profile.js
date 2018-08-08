@@ -132,4 +132,117 @@ router.post('/' , passport.authenticate('jwt' , {session: false}) , (req , res)=
 });
 
 
+//@route POST api/profile/experience
+//@desc  Add experience to profile
+//@access private
+
+router.post('/experience' , passport.authenticate('jwt' , {session: false}) , (req , res)=>{
+  Profile.findOne({user : req.user.id})
+  .then((profile)=>{
+    const newExp = {
+      title : req.body.title,
+      company : req.body.company,
+      location : req.body.location,
+      from : req.body.from,
+      to : req.body.to,
+      current : req.body.current,
+      description : req.body.description
+    };
+
+    //Add to experience array
+
+    profile.experience.unshift(newExp)
+    profile.save().then((profile)=>{
+      res.json(profile);
+    }).catch((err)=> res.status(404).json({error : 'not updated'}))
+  })
+});
+
+
+//@route POST api/profile/education
+//@desc  Add education to profile
+//@access private
+
+router.post('/education' , passport.authenticate('jwt' , {session: false}) , (req , res)=>{
+  Profile.findOne({user : req.user.id})
+  .then((profile)=>{
+    console.log(profile)
+    const newEdu = {
+      school : req.body.school,
+      degree : req.body.degree,
+      fieldofstudy : req.body.fieldofstudy,
+      from : req.body.from,
+      to : req.body.to,
+      current : req.body.current,
+      description : req.body.description
+    };
+
+    //Add to experience array
+
+    profile.education.unshift(newEdu)
+    profile.save().then((profile)=>{
+      res.json(profile);
+    }).catch((err)=> res.status(404).json({error : 'not updated'}))
+  })
+});
+
+
+//@route POST api/profile/experience/:exp_id
+//@desc  delete exp from profile
+//@access private
+
+router.delete('/experience/:exp_id' , passport.authenticate('jwt' , {session: false}) , (req , res)=>{
+  Profile.findOne({user : req.user.id}).then((profile)=>{
+    //GET remove index
+    const removeIndex = profile.experience
+    .map((item) => item.id)
+    .indexOf(req.params.exp_id);
+
+    // splice out of array
+    profile.experience.splice(removeIndex , 1);
+
+    //save the profile
+    profile.save().then((profile) => res.json(profile))
+
+  
+  }).catch(err => res.status(401).json(err)); 
+  
+});
+
+
+//@route POST api/profile/education/:edu_id
+//@desc  delete education from profile
+//@access private
+
+router.delete('/education/:sdu_id' , passport.authenticate('jwt' , {session: false}) , (req , res)=>{
+  Profile.findOne({user : req.user.id}).then((profile)=>{
+    //GET remove index
+    const removeIndex = profile.education
+    .map((item) => item.id)
+    .indexOf(req.params.edu_id);
+    // splice out of array
+    profile.education.splice(removeIndex , 1);
+
+    //save the profile
+    profile.save().then((profile) => res.json(profile))
+
+  
+  }).catch(err => res.status(401).json(err)); 
+  
+});
+
+//@route Delete api/profile
+//@desc  delete profile
+//@access private
+
+router.delete('/' , passport.authenticate('jwt' , {session: false}) , (req , res)=>{
+  Profile.findOneAndRemove({user : req.user.id})
+  .then(() =>{
+    User.findOneAndRemove({_id : req.user.id})
+    .then(() => res.json({success : true}))
+  })
+});
+
+
+
 module.exports = router;
