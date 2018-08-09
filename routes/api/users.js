@@ -11,7 +11,7 @@ const User = require('../../models/User');
 //@route GET api/users/test
 //@desc  Test users route
 //@access public
-router.get('/test' , (req , res) => res.json({msg : 'user works'}));
+// router.get('/test' , (req , res) => res.json({msg : 'user works'}));
 
 
 
@@ -42,7 +42,7 @@ router.post('/register' , (req , res)=>{
           newUser.password = hash;
           newUser.save()
           .then((user)=> res.json(user))
-          .catch(err => console.log(err))
+          .catch(err => res.status(400).json({err}))
         });
 
       });
@@ -104,7 +104,7 @@ router.get('/current' , passport.authenticate('jwt' , {session : false}) , (req 
     id : req.user.id,
     name : req.user.id,
     email : req.user.email 
-  })
-})
+  });
+});
 
 module.exports = router;
