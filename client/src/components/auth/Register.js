@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 import {registerUser} from '../../actions/authAction';
+import TextFieldGroup from '../common/textFieldGroup'
 class Register extends Component {
   constructor(){
     super();
@@ -15,6 +16,13 @@ class Register extends Component {
       errors : {}
     }
   };
+
+  componentDidMount(){
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push('/dashboard')
+    }
+  }
+
   componentWillReceiveProps(nextProps){
     if(nextProps.errors){
       this.setState({errors : nextProps.errors})
@@ -47,43 +55,34 @@ class Register extends Component {
               <h1 className="display-4 text-center">Sign Up</h1>
               <p className="lead text-center">Create your DevConnector account</p>
               <form onSubmit = {this.onSubmit} >
-                <div className="form-group">
-                  <input type="text" 
-                  placeholder="Name" 
-                  className="form-control form-control-lg"
-                  name="name" 
-                  value = {this.state.name}
-                  onChange = {this.onChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <input type="email" 
-                  className="form-control form-control-lg" 
-                  placeholder="Email Address" 
-                  name="email" 
-                  value = {this.state.email} 
-                  onChange = {this.onChange}
-                  />
-                  <small className="form-text text-muted">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
-                </div>
-                <div className="form-group">
-                  <input type="password" 
-                  className="form-control form-control-lg" 
-                  placeholder="Password" 
-                  name="password" 
-                  value = {this.state.password} 
-                  onChange = {this.onChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <input type="password" 
-                  className="form-control form-control-lg" 
-                  placeholder="Confirm Password" 
-                  name="password2" 
-                  value = {this.state.password2} 
-                  onChange = {this.onChange}
-                  />
-                </div>
+
+              <TextFieldGroup 
+              placeholder = 'Name'
+              name = 'name'
+              value = {this.state.name}
+              onChange = {this.onChange}
+              />
+         <TextFieldGroup 
+              placeholder = 'email address'
+              name = 'email'
+              type = 'email'
+              value = {this.state.email}
+              onChange = {this.onChange}
+              />
+                <TextFieldGroup 
+              placeholder = 'Password'
+              name = 'password'
+              type = 'password'
+              value = {this.state.password}
+              onChange = {this.onChange}
+              />
+                <TextFieldGroup 
+              placeholder = 'Password'
+              name = 'password2'
+              type = 'password'
+              value = {this.state.password2}
+              onChange = {this.onChange}
+              />
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
@@ -106,4 +105,4 @@ const mapStateToProps = (state) =>({
   errors : state.errors
 })
 
-export default connect(null , {registerUser})(withRouter(Register)) ;
+export default connect(mapStateToProps , {registerUser})(withRouter(Register)) ;
