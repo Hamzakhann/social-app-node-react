@@ -154,7 +154,7 @@ router.post('/experience' , passport.authenticate('jwt' , {session: false}) , (r
     profile.experience.unshift(newExp)
     profile.save().then((profile)=>{
       res.json(profile);
-    }).catch((err)=> res.status(404).json({error : 'not updated'}))
+    }).catch((err)=> res.status(400).json({error : 'not updated'}))
   })
 });
 
